@@ -93,15 +93,15 @@ namespace ConsoleApp
                     returnArray[i - zeroX, j - zeroY] = array[i, j];
             }
 
-            Console.WriteLine("Normal array");
-            DrawArray(returnArray, internalSizeX, internalSizeY);
-            Console.WriteLine("===========================================");
+            //Console.WriteLine("Normal array");
+            //DrawArray(returnArray, internalSizeX, internalSizeY);
+            //Console.WriteLine("===========================================");
 
-            //for (int j = 0; j < internalSizeY / 2; j++)
-            //{
-            //    for (int i = 0; i < internalSizeX; i++)
-            //        SwapElementsH(returnArray, i, j, internalSizeY);
-            //}
+            for (int j = 0; j < internalSizeY / 2; j++)
+            {
+                for (int i = 0; i < internalSizeX; i++)
+                    SwapElementsH(returnArray, i, j, internalSizeY);
+            }
 
             //Console.WriteLine("Swapped horizontally");
             //DrawArray(returnArray, internalSizeX, internalSizeY);
@@ -122,9 +122,9 @@ namespace ConsoleApp
                 ii = jj;
             }
 
-            Console.WriteLine("Inverted array");
-            DrawArray(returnArray, internalSizeX, internalSizeY);
-            Console.WriteLine("===========================================");
+            //Console.WriteLine("Inverted array");
+            //DrawArray(returnArray, internalSizeX, internalSizeY);
+            //Console.WriteLine("===========================================");
 
             return returnArray;
         }
@@ -136,13 +136,13 @@ namespace ConsoleApp
             array[j, i] = temp;
         }
 
-        //private static void SwapElementsH(int[,] array, int i, int j, int sizeY)
-        //{
-        //    var jk = sizeY - j - 1;
-        //    var temp = array[i, j];
-        //    array[i, j] = array[i, jk];
-        //    array[i, jk] = temp;
-        //}
+        private static void SwapElementsH(int[,] array, int i, int j, int sizeY)
+        {
+            var jk = sizeY - j - 1;
+            var temp = array[i, j];
+            array[i, j] = array[i, jk];
+            array[i, jk] = temp;
+        }
 
         private static int[,] FillArrayByRandom(Random rnd, int sizeX, int sizeY)
         {
