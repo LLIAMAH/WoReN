@@ -6,6 +6,14 @@ namespace ConsoleApp
     internal class Program
     {
         private static Random _rnd = new Random();
+        private enum Direction
+        {
+            Current,
+            ShiftRight,
+            GoLeft,
+            ShiftLeft,
+            GoRight
+        }
 
         static void Main(string[] args)
         {
@@ -23,7 +31,7 @@ namespace ConsoleApp
             Console.WriteLine($"Biggest element of the low part is: {maxElementIndexInLow.Value}[{maxElementIndexInLow.X}, {maxElementIndexInLow.Y}]");
             var maxIndexesInHigh = GetMaxIndexesBySnakeHorizontal(array, maxElementIndexInLow.Value, n, n);
             DrawListOfIndexes(maxIndexesInHigh);
-        }        
+        }
 
         private static ArrayIndex GetMaxElementBySnakeDiagonal(int[,] array, int zeroX, int zeroY, int sizeX, int sizeY)
         {
@@ -33,23 +41,76 @@ namespace ConsoleApp
 
             var index = new ArrayIndex(-10000, 0, 0);
 
-            for (int k = 0; k <= internalSizeX + internalSizeY - 2; k++)
+            var i = 0;
+            var j = internalSizeY - 1;
+            var counter = 0;
+            var direction = Direction.Current;
+            while (counter <= internalSizeX * internalSizeY)
             {
-                for (int j = 0; j <= k; j++)
+                switch (direction)
                 {
-                    int i = k - j;
-                    if (i < internalSizeX && j < internalSizeY)
-                    {
-                        if (internalArray[i, j] > index.Value)
-                            index = new ArrayIndex(internalArray[i, j], i + zeroX, j + zeroY);
-
-                        Console.Write($"{internalArray[i, j]}\t");
-                    }
+                    case Direction.Current:
+                        {
+                            index = CheckMaxElement(index, internalArray, i, j);
+                            counter++;
+                            direction = Direction.ShiftRight;
+                            i++;
+                            break;
+                        }
+                    case Direction.ShiftRight:
+                        {
+                            index = CheckMaxElement(index, internalArray, i, j);
+                            counter++;
+                            direction = Direction.GoLeft;
+                            i--;
+                            j--;
+                            break;
+                        }
+                    case Direction.ShiftLeft:
+                        {
+                            index = CheckMaxElement(index, internalArray, i, j);
+                            counter++;
+                            direction = Direction.GoRight;
+                            i++;
+                            j++;
+                            break;
+                        }
+                    case Direction.GoLeft:
+                        {
+                            index = CheckMaxElement(index, internalArray, i, j);
+                            counter++;
+                            if (i == 0 || j == 0)
+                                direction = Direction.ShiftLeft;
+                            else
+                            {
+                                i--;
+                                j--;
+                            }
+                            break;
+                        }
+                    case Direction.GoRight:
+                        {
+                            index = CheckMaxElement(index, internalArray, i, j);
+                            counter++;
+                            if (i == internalSizeX - 1 || j == internalSizeY - 1)
+                                direction = Direction.ShiftRight;
+                            else
+                            {
+                                i++;
+                                j++;
+                            }
+                            break;
+                        }
                 }
-                Console.WriteLine();
             }
 
             return index;
+        }
+
+        private static ArrayIndex CheckMaxElement(ArrayIndex index, int[,] internalArray, int i, int j)
+        {
+            var el = internalArray[i, j];
+            return (el > index.Value) ? new ArrayIndex(el, i, j) : index;
         }
 
         private static List<ArrayIndex> GetMaxIndexesBySnakeHorizontal(int[,] array, int max, int sizeX, int sizeY)
@@ -92,39 +153,6 @@ namespace ConsoleApp
                 for (int i = zeroX; i < sizeX; i++)
                     returnArray[i - zeroX, j - zeroY] = array[i, j];
             }
-
-            //Console.WriteLine("Normal array");
-            //DrawArray(returnArray, internalSizeX, internalSizeY);
-            //Console.WriteLine("===========================================");
-
-            for (int j = 0; j < internalSizeY / 2; j++)
-            {
-                for (int i = 0; i < internalSizeX; i++)
-                    SwapElementsH(returnArray, i, j, internalSizeY);
-            }
-
-            //Console.WriteLine("Swapped horizontally");
-            //DrawArray(returnArray, internalSizeX, internalSizeY);
-            //Console.WriteLine("===========================================");
-
-            int ii = 0;
-            int jj = 0;
-            while (jj < internalSizeY)
-            {
-                while (ii < internalSizeX)
-                {
-                    if (ii != jj)
-                        SwapElementsD(returnArray, ii, jj);
-
-                    ii++;
-                }
-                jj++;
-                ii = jj;
-            }
-
-            //Console.WriteLine("Inverted array");
-            //DrawArray(returnArray, internalSizeX, internalSizeY);
-            //Console.WriteLine("===========================================");
 
             return returnArray;
         }
