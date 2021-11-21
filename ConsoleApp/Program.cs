@@ -83,7 +83,9 @@ namespace ConsoleApp
 
         private static int[,] CopyLowPart(int[,] array, int zeroX, int zeroY, int sizeX, int sizeY)
         {
-            var returnArray = new int[sizeX - zeroX, sizeY - zeroY];
+            var internalSizeX = sizeX - zeroX;
+            var internalSizeY = sizeY - zeroY;
+            var returnArray = new int[internalSizeX, internalSizeY];
 
             for (int j = zeroY; j < sizeY; j++)
             {
@@ -91,8 +93,56 @@ namespace ConsoleApp
                     returnArray[i - zeroX, j - zeroY] = array[i, j];
             }
 
+            Console.WriteLine("Normal array");
+            DrawArray(returnArray, internalSizeX, internalSizeY);
+            Console.WriteLine("===========================================");
+
+            //for (int j = 0; j < internalSizeY / 2; j++)
+            //{
+            //    for (int i = 0; i < internalSizeX; i++)
+            //        SwapElementsH(returnArray, i, j, internalSizeY);
+            //}
+
+            //Console.WriteLine("Swapped horizontally");
+            //DrawArray(returnArray, internalSizeX, internalSizeY);
+            //Console.WriteLine("===========================================");
+
+            int ii = 0;
+            int jj = 0;
+            while (jj < internalSizeY)
+            {
+                while (ii < internalSizeX)
+                {
+                    if (ii != jj)
+                        SwapElementsD(returnArray, ii, jj);
+
+                    ii++;
+                }
+                jj++;
+                ii = jj;
+            }
+
+            Console.WriteLine("Inverted array");
+            DrawArray(returnArray, internalSizeX, internalSizeY);
+            Console.WriteLine("===========================================");
+
             return returnArray;
         }
+
+        private static void SwapElementsD(int[,] array, int i, int j)
+        {
+            var temp = array[i, j];
+            array[i, j] = array[j, i];
+            array[j, i] = temp;
+        }
+
+        //private static void SwapElementsH(int[,] array, int i, int j, int sizeY)
+        //{
+        //    var jk = sizeY - j - 1;
+        //    var temp = array[i, j];
+        //    array[i, j] = array[i, jk];
+        //    array[i, jk] = temp;
+        //}
 
         private static int[,] FillArrayByRandom(Random rnd, int sizeX, int sizeY)
         {
