@@ -20,15 +20,25 @@ namespace ConsoleApp
             Console.WriteLine("Enter Matrix minor size: ");
             var inputSize = Console.ReadLine();
 
-            var n = Convert.ToInt32(inputSize);
+            var n = 0;
+            try
+            {
+                n = Convert.ToInt32(inputSize);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Restart app and enter the number for Matrix minor size.");
+                return;
+            }
+            
             var m = 2 * n;
-
-            //var array = FillArrayByRandom(_rnd, n, m);
             var array = FillArrayByRandom(_rnd, n, m);
             DrawArray(array, n, m);
             Console.WriteLine("===========================================");
             var maxElementIndexInLow = GetMaxElementBySnakeDiagonal(array, 0, n, n, m);
             Console.WriteLine($"Biggest element of the low part is: {maxElementIndexInLow.Value}[{maxElementIndexInLow.X}, {maxElementIndexInLow.Y}]");
+
             var maxIndexesInHigh = GetMaxIndexesBySnakeHorizontal(array, maxElementIndexInLow.Value, n, n);
             DrawListOfIndexes(maxIndexesInHigh);
         }
@@ -51,8 +61,8 @@ namespace ConsoleApp
                 {
                     case Direction.Current:
                         {
-                            index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
+                            index = CheckMaxElement(index, internalArray, i, j);                            
                             direction = Direction.ShiftRight;
                             break;
                         }
@@ -62,8 +72,8 @@ namespace ConsoleApp
                                 j--;
                             else
                                 i++;
-                            index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
+                            index = CheckMaxElement(index, internalArray, i, j);                            
                             direction = Direction.GoLeft;
                             break;
                         }
@@ -73,8 +83,8 @@ namespace ConsoleApp
                                 i++;
                             else
                                 j--;
-                            index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
+                            index = CheckMaxElement(index, internalArray, i, j);                            
                             direction = Direction.GoRight;                            
                             break;
                         }
@@ -82,8 +92,9 @@ namespace ConsoleApp
                         {
                             i--;
                             j--;
-                            index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
+                            index = CheckMaxElement(index, internalArray, i, j);
+                            
                             if (i == 0 || j == 0)
                                 direction = Direction.ShiftLeft;
                             else
@@ -95,8 +106,8 @@ namespace ConsoleApp
                         {
                             i++;
                             j++;
-                            index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
+                            index = CheckMaxElement(index, internalArray, i, j);                            
                             if (i == internalSizeX - 1 || j == internalSizeY - 1)
                                 direction = Direction.ShiftRight;
                             else
