@@ -45,7 +45,7 @@ namespace ConsoleApp
             var j = internalSizeY - 1;
             var counter = 0;
             var direction = Direction.Current;
-            while (counter <= internalSizeX * internalSizeY)
+            while (counter < internalSizeX * internalSizeY)
             {
                 switch (direction)
                 {
@@ -54,51 +54,54 @@ namespace ConsoleApp
                             index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
                             direction = Direction.ShiftRight;
-                            i++;
                             break;
                         }
                     case Direction.ShiftRight:
                         {
+                            if (i == internalSizeX - 1)
+                                j--;
+                            else
+                                i++;
                             index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
                             direction = Direction.GoLeft;
-                            i--;
-                            j--;
                             break;
                         }
                     case Direction.ShiftLeft:
                         {
+                            if (j == 0)
+                                i++;
+                            else
+                                j--;
                             index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
-                            direction = Direction.GoRight;
-                            i++;
-                            j++;
+                            direction = Direction.GoRight;                            
                             break;
                         }
                     case Direction.GoLeft:
                         {
+                            i--;
+                            j--;
                             index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
                             if (i == 0 || j == 0)
                                 direction = Direction.ShiftLeft;
                             else
-                            {
-                                i--;
-                                j--;
-                            }
+                                direction = Direction.GoLeft;
+                            
                             break;
                         }
                     case Direction.GoRight:
                         {
+                            i++;
+                            j++;
                             index = CheckMaxElement(index, internalArray, i, j);
                             counter++;
                             if (i == internalSizeX - 1 || j == internalSizeY - 1)
                                 direction = Direction.ShiftRight;
                             else
-                            {
-                                i++;
-                                j++;
-                            }
+                                direction = Direction.GoRight;
+                            
                             break;
                         }
                 }
