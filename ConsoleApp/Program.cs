@@ -160,21 +160,6 @@ namespace ConsoleApp
             return returnArray;
         }
 
-        private static void SwapElementsD(int[,] array, int i, int j)
-        {
-            var temp = array[i, j];
-            array[i, j] = array[j, i];
-            array[j, i] = temp;
-        }
-
-        private static void SwapElementsH(int[,] array, int i, int j, int sizeY)
-        {
-            var jk = sizeY - j - 1;
-            var temp = array[i, j];
-            array[i, j] = array[i, jk];
-            array[i, jk] = temp;
-        }
-
         private static int[,] FillArrayByRandom(Random rnd, int sizeX, int sizeY)
         {
             var a = new int[sizeX, sizeY];
