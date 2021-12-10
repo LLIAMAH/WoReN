@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneralLib.Arrays;
 
 namespace ConsoleApp
 {
@@ -33,7 +34,7 @@ namespace ConsoleApp
             }
             
             var m = 2 * n;
-            var array = FillArrayByRandom(_rnd, n, m);
+            var array = ArraysEx.FillArrayByRandom(_rnd, n, m);
             DrawArray(array, n, m);
             Console.WriteLine("===========================================");
             var maxElementIndexInLow = GetMaxElementBySnakeDiagonal(array, 0, n, n, m);
@@ -169,20 +170,6 @@ namespace ConsoleApp
             }
 
             return returnArray;
-        }
-
-        private static int[,] FillArrayByRandom(Random rnd, int sizeX, int sizeY)
-        {
-            var a = new int[sizeX, sizeY];
-            for (int j = 0; j < sizeY; j++)
-            {
-                for (int i = 0; i < sizeX; i++)
-                {
-                    a[i, j] = rnd.Next(-100, +100);
-                }
-            }
-
-            return a;
         }
 
         private static void DrawArray(int [,] array,int sizeX, int sizeY)

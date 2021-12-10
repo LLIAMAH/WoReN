@@ -1,44 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using GeneralLib.Arrays;
 
 namespace SortConsole
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            const int m = 10;
-            const int n = 20;
-            var array = AssignData(m, n);
+            const int m = 5;
+            const int n = 5;
+            var rnd = new Random();
+            var array = ArraysEx.FillArrayByRandom(rnd, n, m);
+            ArraysEx.WriteArray(array, n, m);
 
-            WriteArray(array, n,m);
+            var arrayMarked = new ArraysEx.MarkedOutput[n, m];
+            for (var j = 0; j < m; j++)
+            for (var i = 0; i < n; i++)
+                arrayMarked[i, j] = new ArraysEx.MarkedOutput(array[i, j]);
 
             for (var j = 0; j < m; j++)
             {
-                var arrayNewRow = SortingFunc(array, j, n);
+                var arrayNewRow = SortingFunc(arrayMarked, j, n);
                 for (var i = 0; i < n; i++)
-                    array[i, j] = arrayNewRow[i];
+                    arrayMarked[i, j] = arrayNewRow[i];
             }
 
-            WriteArray(array, n, m);
+            ArraysEx.WriteArray(arrayMarked, n, m);
 
             Console.WriteLine("Hello World!");
         }
 
-        private static int[] SortingFunc(int[,] array, int rowIndex, int n)
+        private static ArraysEx.MarkedOutput[] SortingFunc(ArraysEx.MarkedOutput[,] array, int rowIndex, int n)
         {
-            var list = new List<int>();
-            for (var i = rowIndex; i < n; i++)
+            var list = new List<ArraysEx.MarkedOutput>();
+            for (var i = rowIndex + 1; i < n; i++)
+                list.Add(array[i, rowIndex].SetMarked());
+
+            list.Sort(delegate(ArraysEx.MarkedOutput x, ArraysEx.MarkedOutput y)
             {
-                list.Add(array[i, rowIndex]);
-            }
+                if (x == null && y == null) return 0;
+                else if (x == null) return -1;
+                else if (y == null) return 1;
+                else return x.Value.CompareTo(y.Value);
+            });
 
-            list.Sort();
-
-            var finalList = new List<int>();
+            var finalList = new List<ArraysEx.MarkedOutput>();
 
             var t = 0;
-            while (t < rowIndex)
+            while (t <= rowIndex)
             {
                 finalList.Add(array[t, rowIndex]);
                 t++;
@@ -49,14 +59,6 @@ namespace SortConsole
             return finalList.ToArray();
         }
 
-        private static void WriteArray(int[,] array, int columns, int rows)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static int[,] AssignData(int columns, int rows)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
