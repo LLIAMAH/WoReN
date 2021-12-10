@@ -54,7 +54,7 @@ namespace SortConsole
             throw new NotImplementedException();
         }
 
-        private static int[,] AssignData(int i, int i1)
+        private static int[,] AssignData(int columns, int rows)
         {
             throw new NotImplementedException();
         }
