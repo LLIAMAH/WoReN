@@ -27,8 +27,6 @@ namespace SortConsole
             }
 
             ArraysEx.WriteArray(arrayMarked, n, m);
-
-            Console.WriteLine("Hello World!");
         }
 
         private static ArraysEx.MarkedOutput[] SortingFunc(ArraysEx.MarkedOutput[,] array, int rowIndex, int n)
