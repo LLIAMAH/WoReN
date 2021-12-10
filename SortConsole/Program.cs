@@ -25,11 +25,6 @@ namespace SortConsole
             Console.WriteLine("Hello World!");
         }
 
-        private static void WriteArray(int[,] array, int columns, int rows)
-        {
-            throw new NotImplementedException();
-        }
-
         private static int[] SortingFunc(int[,] array, int rowIndex, int n)
         {
             var list = new List<int>();
@@ -48,6 +43,11 @@ namespace SortConsole
             }
 
             return list.ToArray();
+        }
+
+        private static void WriteArray(int[,] array, int columns, int rows)
+        {
+            throw new NotImplementedException();
         }
 
         private static int[,] AssignData(int i, int i1)
