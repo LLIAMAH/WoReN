@@ -35,14 +35,18 @@ namespace SortConsole
 
             list.Sort();
 
+            var finalList = new List<int>();
+
             var t = 0;
             while (t < rowIndex)
             {
-                list.Insert(0, array[t, rowIndex]);
+                finalList.Add(array[t, rowIndex]);
                 t++;
             }
 
-            return list.ToArray();
+            finalList.AddRange(list);
+
+            return finalList.ToArray();
         }
 
         private static void WriteArray(int[,] array, int columns, int rows)
