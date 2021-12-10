@@ -58,7 +58,5 @@ namespace SortConsole
 
             return finalList.ToArray();
         }
-
-        
     }
 }
