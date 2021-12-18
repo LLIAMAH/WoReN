@@ -26,24 +26,22 @@ namespace AlgorithmDH
 
     public class Person
     {
-        private int _number;
-        private readonly Secrets _secrets;
+        private readonly int _number;
         private long _generalPublicKey;
 
         public Person(int input)
         {
             this._number = input;
-            this._secrets = new Secrets();
         }
 
         public long GetPublicKey()
         {
-            return _secrets.GeneratePublicKey(this._number);
+            return Secrets.GeneratePublicKey(this._number);
         }
 
         public void Send(long publicKeyOther)
         {
-            _generalPublicKey = _secrets.GetGeneralKey(_number, publicKeyOther);
+            _generalPublicKey = Secrets.GetGeneralKey(_number, publicKeyOther);
         }
 
         public long GetGeneralPublicKey()
@@ -54,19 +52,19 @@ namespace AlgorithmDH
 
     public class Secrets
     {
-        private const int publicG = 3; // G & P
-        private const int publicP = 5;
+        private const int PublicG = 3; // G & P
+        private const int PublicP = 5;
 
-        public long GeneratePublicKey(long numberToEncrypt)
+        public static long GeneratePublicKey(long numberToEncrypt)
         {
-            var powered = (long)Math.Pow(publicG, numberToEncrypt);
-            return powered % publicP;
+            var powered = (long)Math.Pow(PublicG, numberToEncrypt);
+            return powered % PublicP;
         }
 
-        public long GetGeneralKey(int number, long publicKeyOther)
+        public static long GetGeneralKey(int number, long publicKeyOther)
         {
             var modifiedModKey = (long)Math.Pow(publicKeyOther, number);
-            return modifiedModKey % publicP;
+            return modifiedModKey % PublicP;
         }
     }
 }
