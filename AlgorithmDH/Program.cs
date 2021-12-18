@@ -6,8 +6,8 @@ namespace AlgorithmDH
     {
         static void Main(string[] args)
         {
-            var alice = new Person(5);
-            var bob = new Person(7);
+            var alice = new Person(15);
+            var bob = new Person(8);
 
             var publicKeyAlice = alice.GetPublicKey();
             var publicKeyBob = bob.GetPublicKey();
@@ -18,10 +18,9 @@ namespace AlgorithmDH
             var generalPublicKey1 = bob.GetGeneralPublicKey();
             var generalPublicKey2 = alice.GetGeneralPublicKey();
 
-            if(generalPublicKey1 == generalPublicKey2)
-                Console.WriteLine($"General public key has been generated: {generalPublicKey1}.");
-            else
-                Console.WriteLine("General public key generation is failed!");
+            Console.WriteLine(generalPublicKey1 == generalPublicKey2
+                ? $"General public key has been generated: {generalPublicKey1}."
+                : "General public key generation is failed!");
         }
     }
 
