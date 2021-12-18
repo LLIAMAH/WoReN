@@ -19,9 +19,9 @@ namespace AlgorithmDH
             var generalPublicKey2 = alice.GetGeneralPublicKey();
 
             if(generalPublicKey1 == generalPublicKey2)
-                Console.WriteLine("General public key has been generated.");
-
-            Console.WriteLine("Hello World!");
+                Console.WriteLine($"General public key has been generated: {generalPublicKey1}.");
+            else
+                Console.WriteLine("General public key generation is failed!");
         }
     }
 
