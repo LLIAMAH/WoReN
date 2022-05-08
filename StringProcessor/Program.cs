@@ -38,6 +38,11 @@ while (continueWork && readLine != null)
                 Console.Write(inputRules);
             }
                 break;
+            case CheckResult.PrintToFile:
+            {
+                processor.Print();
+            }
+                break;
             case CheckResult.CheckFormat:
             {
                 switch (processor.CheckFormat(s))

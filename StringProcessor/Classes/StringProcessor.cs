@@ -7,6 +7,7 @@
         Clean,
         CheckFormat,
         ValidationFailedNextStepRequest,
+        PrintToFile,
         Continue
     }
 
@@ -22,6 +23,8 @@
         private readonly List<string> _resultBad; // написано было - запихивать в "плохие строки", но что потом сэтим делать - нипанятна. Вообщем я их чищу по Clean тоже и они есть - если надо используй где надо.
         internal const int FormatMin = 1;
         internal const int FormatMax = 7;
+        internal const string DefaultFileName = "StringProcResult";
+        internal const string DefaultFileExt = ".txt";
 
         // Строка для вывода результата - она НЕ содержит данных до момента, пока этот результат надо выводить.
         // настоящий источник данных и хранилище всех валидных сегментов - _result, откуда все сегменты и джойнятся в результат
@@ -43,6 +46,9 @@
 
             if (line.ToLower().Equals("clean", StringComparison.OrdinalIgnoreCase))
                 return CheckResult.Clean;
+
+            if (line.ToLower().Equals("print", StringComparison.OrdinalIgnoreCase))
+                return CheckResult.PrintToFile;
 
             return line.Length switch
             {
@@ -119,6 +125,39 @@
         private static bool MatchFormat(string s)
         {
             return s.Length == 7 && char.IsLetter(s[0]) && char.IsDigit(s[1]) && char.IsDigit(s[2]) && char.IsDigit(s[3]) && char.IsDigit(s[4]) && char.IsLetter(s[5]) && char.IsLetter(s[6]);
+        }
+
+        public void Print()
+        {
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+
+            FileInfo? fi = null;
+            var index = 0;
+            do
+            {
+                index++;
+                var fileName = $"{DefaultFileName}-{date}({index}){DefaultFileExt}";
+                fi = new FileInfo(fileName);
+            } while (fi.Exists);
+
+            using (var fileStream = fi.CreateText())
+            {
+                try
+                {
+                    Console.WriteLine($"Writing result to file: {fi.Name}");
+                    fileStream.Write(this.Result);
+                    fileStream.Flush();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Cannot write to file.");
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    fileStream.Close();
+                }
+            }
         }
     }
 }
