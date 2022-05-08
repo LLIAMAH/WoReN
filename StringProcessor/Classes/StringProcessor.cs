@@ -1,4 +1,8 @@
-﻿namespace StringProcessor.Classes
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace StringProcessor.Classes
 {
     internal enum CheckResult
     {
